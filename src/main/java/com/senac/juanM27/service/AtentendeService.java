@@ -31,5 +31,6 @@ public class AtentendeService {
     public void criarAtendente(CreateUserDto createUserDto) {
         Role role = roleRepository.findByName(createUserDto.role().name());
     }
+
 }
 
