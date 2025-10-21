@@ -3,6 +3,7 @@ package com.senac.juanM27.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -24,7 +25,7 @@ public class Atendente {
     private String chaveAcesso;
 
     @Column(name = "atendente_data_criacao")
-    private LocalDate dataCriacao;
+    private LocalDateTime dataCriacao;
 
     @Column(name = "atendente_ativo")
     private Integer ativo;
@@ -70,11 +71,11 @@ public class Atendente {
         this.chaveAcesso = chaveAcesso;
     }
 
-    public LocalDate getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDate dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
