@@ -23,8 +23,10 @@ public class SecurityConfiguration {
 
     // A LISTA CORRETA ESTÁ AQUI
     public static final String [] ENDPOINTS_PUBLICOS = {
-            "/api/usuario/criar",
-            "/api/usuario/login",
+
+            "/api/atendente/criar",
+            "/api/atendente/login",
+
             // Endpoints do Swagger
             "/v3/api-docs/**",
             "/swagger-ui/**",
