@@ -33,7 +33,7 @@ public class Atendente {
     @OneToMany(mappedBy = "atendente")
     private List<com.senac.juanM27.entity.ChamadaAtendente> chamadasAtendente;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "atendente_role",
             joinColumns = @JoinColumn(name = "atendente_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
