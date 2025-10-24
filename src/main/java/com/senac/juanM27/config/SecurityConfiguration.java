@@ -21,16 +21,29 @@ public class SecurityConfiguration {
     @Autowired
     private UserAuthenticationFilter userAuthenticationFilter;
 
-    // A LISTA CORRETA ESTÁ AQUI
-    public static final String [] ENDPOINTS_PUBLICOS = {
+    public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
+            "/api/atendente/login", // Url que usaremos para fazer login
+            "/api/atendente/criar", // Url que usaremos para criar um usuário
 
-            "/api/atendente/criar",
-            "/api/atendente/login",
-
-            // Endpoints do Swagger
+            // 🔓 Swagger/OpenAPI UI
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html"
+    };
+
+    // Endpoints que requerem autenticação para serem acessados
+    public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
+            "/api/atendente/listar"
+    };
+
+    // Endpoints que só podem ser acessador por usuários com permissão de cliente
+    public static final String [] ENDPOINTS_CUSTOMER = {
+            "/users/test/customer"
+    };
+
+    // Endpoints que só podem ser acessador por usuários com permissão de administrador
+    public static final String [] ENDPOINTS_ADMIN = {
+            "/users/test/administrator"
     };
 
     @Bean
@@ -39,9 +52,12 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(ENDPOINTS_PUBLICOS).permitAll() // USA A LISTA CORRETA
-                        .requestMatchers(HttpMethod.GET).permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //adicionado para funcionamento do swagger
+                        .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")
+                        .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
+                        .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
+                        .anyRequest().denyAll()
                 )
                 .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -57,4 +73,5 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

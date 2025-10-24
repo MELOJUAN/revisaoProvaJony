@@ -5,8 +5,7 @@ import com.senac.juanM27.entity.Role;
 import java.util.List;
 
 public record LoginUserDto(
-        String id,
-        String usuariologin,
-        List<Role> roles
+        String login,
+        String chaveAcesso
 ) {
 }
